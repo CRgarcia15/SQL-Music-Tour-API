@@ -1,11 +1,11 @@
 //Dependencies
-const event = require('express').Router()
+const events = require('express').Router()
 const db = require('../models')
 const {Event} = db
 const {Op} = require('sequelize')
 
 //Find all events
-event.get('/', async (req, res) => {
+events.get('/', async (req, res) => {
     try {
         const foundEvents = await Event.findAll({
             order: [ ['available_start_time', 'ASC'] ],
@@ -21,7 +21,7 @@ event.get('/', async (req, res) => {
 })
 
 //Find specific event
-event.get('/:id', async(req, res) => {
+events.get('/:id', async(req, res) => {
     try {
         const foundEvents = await Event.findOne({
             where: {event_id: req.params.id}
@@ -34,7 +34,7 @@ event.get('/:id', async(req, res) => {
 })
 
 //Create an event
-event.post('/', async (req, res) => {
+events.post('/', async (req, res) => {
     try{ const newEvent = await Event.create(req.body)
         res.status(200).json({
             message: 'Successfully created a new Event',
@@ -47,7 +47,7 @@ event.post('/', async (req, res) => {
 })
 
 //Update an event
-event.put('/:id', async (req, res) => {
+events.put('/:id', async (req, res) => {
     try {
         const updatedEvents = await Event.update(req.body, {
             where: {
@@ -64,7 +64,7 @@ event.put('/:id', async (req, res) => {
 })
 
 // Delete an event
-event.delete('/:id', async (req, res) => {
+events.delete('/:id', async (req, res) => {
     try {
         const deletedEvents = await Event.destroy({
             where: {
@@ -80,4 +80,4 @@ event.delete('/:id', async (req, res) => {
 })
 
 //Export
-module.exports = event
+module.exports = events
