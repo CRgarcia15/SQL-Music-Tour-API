@@ -20,18 +20,24 @@ stages.get('/', async (req, res) => {
     }
 })
 
-//Find specific stage
-stages.get('/:id', async(req, res) => {
+// FIND A SPECIFIC STAGE
+stages.get('/:id', async (req, res) => {
     try {
-        const foundStages = await Stage.findOne({
-            where: {stage_id: req.params.id}
+        const foundStage = await Stage.findOne({
+            where: { stage_id: req.params.id }
         })
-        res.status(200).json(foundStages)
-    }
-    catch (error) {
+
+        if (foundStage != null) {
+            res.status(200).json(foundStage)
+        } else {
+            res.status(404).json("Stage " + req.params.id + " does not exist!")
+        }
+        
+    } catch (error) {
         res.status(500).json(error)
     }
 })
+
 
 //Create an stage
 stages.post('/', async (req, res) => {
